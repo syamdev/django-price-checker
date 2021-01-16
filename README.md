@@ -134,3 +134,33 @@ dropuser --if-exists myuser
 ```
 
 
+## Flow for New App
+
+### Create New App
+```commandline
+python manage.py startapp app_coffee
+```
+  
+### Move New App to app directory
+```commandline
+mv app_coffee pricechecker/
+```
+
+### Set the New App Config
+- in **apps.py**
+```python
+name = 'pricechecker.app_coffee'
+```
+
+### Add New App to Installed Apps
+- in LOCAL_APPS **settings/base.py**
+```python
+'pricechecker.app_coffee.apps.AppCoffeeConfig',
+```
+
+### Add New App Model in **models.py**
+- create field
+- makemigrations new_app & migrate new_app
+
+### Test New App Model in Shell Plus
+`python manage.py shell_plus`
