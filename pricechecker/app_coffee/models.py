@@ -10,7 +10,7 @@ class Coffee(TimeStampedModel):
     MILK_BASED_COFFEE = 'MC'
     ICED_COFFEE = 'IC'
     COFFEE_TYPE_CHOICES = [
-        (UNIQUE_COFFEE, 'Unique'),
+        (UNIQUE_COFFEE, 'Unique Coffee'),
         (BLACK_COFFEE, 'Black Coffee'),
         (MILK_BASED_COFFEE, 'Milk Based Coffee'),
         (ICED_COFFEE, 'Iced Coffee'),
