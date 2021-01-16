@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from .models import Coffee
 
-# Create your views here.
+
+class CoffeeListView(ListView):
+    model = Coffee
