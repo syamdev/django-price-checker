@@ -6,7 +6,7 @@
   <h2>Coffee List</h2>
     <ul>
       {% for coffee in coffee_list %}
-        <li><a href="#TODO">{{ coffee.name }}</a></li>
+        <li><a href="{% url 'coffee:detail' coffee.slug %}">{{ coffee.name }}</a></li>
       {% endfor %}
     </ul>
 {% endblock content %}

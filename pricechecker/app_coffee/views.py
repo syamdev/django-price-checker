@@ -4,3 +4,7 @@ from .models import Coffee
 
 class CoffeeListView(ListView):
     model = Coffee
+
+
+class CoffeeDetailView(DetailView):
+    model = Coffee
