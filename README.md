@@ -164,3 +164,15 @@ name = 'pricechecker.app_coffee'
 
 ### Test New App Model in Shell Plus
 `python manage.py shell_plus`
+
+### Create Module for App Model Tests
+- Delete **tests.py**
+- Create directory tests/
+- Inside of tests/ , create **__init__.py**, **test_models.py** and other individual test modules.
+- Create test function
+- Run coverage.py
+```
+coverage run -m pytest
+coverage report
+coverage html
+```
