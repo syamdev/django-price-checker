@@ -12,4 +12,10 @@
   <p>{{ coffee.description }}</p>
   {% endif %}
 
+  {% if coffee.country_of_origin %}
+  <p>Country of Origin: {{ coffee.country_of_origin.name }}
+  <img src="{{ coffee.country_of_origin.flag }}" />
+  </p>
+  {% endif %}
+
 {% endblock content %}

@@ -176,3 +176,16 @@ coverage run -m pytest
 coverage report
 coverage html
 ```
+
+### Test using Factory
+```
+python manage.py shell_plus
+
+from pricechecker.users.tests.factories import UserFactory
+user = UserFactory()
+user
+user.username
+user.email
+user.name
+user.password
+```

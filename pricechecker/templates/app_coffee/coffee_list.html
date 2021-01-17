@@ -7,6 +7,8 @@
     <ul>
       {% for coffee in coffee_list %}
         <li><a href="{% url 'coffee:detail' coffee.slug %}">{{ coffee.name }}</a></li>
+      {% empty %}
+        <li>No coffee list yet.</li>
       {% endfor %}
     </ul>
 {% endblock content %}

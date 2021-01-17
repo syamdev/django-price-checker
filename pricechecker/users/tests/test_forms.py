@@ -1,7 +1,7 @@
 import pytest
 
-from pricechecker.users.forms import UserCreationForm
-from pricechecker.users.tests.factories import UserFactory
+from ..forms import UserCreationForm
+from ..tests.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -14,8 +14,8 @@ class TestUserCreationForm:
         form = UserCreationForm(
             {
                 "username": proto_user.username,
-                "password1": proto_user._password,
-                "password2": proto_user._password,
+                "password1": proto_user.password,
+                "password2": proto_user.password,
             }
         )
 
@@ -30,8 +30,8 @@ class TestUserCreationForm:
         form = UserCreationForm(
             {
                 "username": proto_user.username,
-                "password1": proto_user._password,
-                "password2": proto_user._password,
+                "password1": proto_user.password,
+                "password2": proto_user.password,
             }
         )
 
