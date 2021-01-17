@@ -3,19 +3,18 @@
 {% block title %}Coffee: {{ coffee.name }}{% endblock %}
 
 {% block content %}
-  <h2>{{ coffee.name }}</h2>
-  {% if coffee.type %}
-  <p>Type: {{ coffee.get_type_display }}</p>
-  {% endif %}
+<h2>{{ coffee.name }}</h2>
+{% if coffee.type %}
+<p>Type: {{ coffee.get_type_display }}</p>
+{% endif %}
 
-  {% if coffee.description %}
-  <p>{{ coffee.description }}</p>
-  {% endif %}
+{% if coffee.description %}
+<p>{{ coffee.description }}</p>
+{% endif %}
 
-  {% if coffee.country_of_origin %}
-  <p>Country of Origin: {{ coffee.country_of_origin.name }}
+{% if coffee.country_of_origin %}
+<p>Country of Origin: {{ coffee.country_of_origin.name }}
   <img src="{{ coffee.country_of_origin.flag }}" />
-  </p>
-  {% endif %}
-
+</p>
+{% endif %}
 {% endblock content %}
