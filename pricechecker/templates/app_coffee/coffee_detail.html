@@ -17,4 +17,12 @@
   <img src="{{ coffee.country_of_origin.flag }}" />
 </p>
 {% endif %}
+
+<hr/>
+<h3>Posted by
+  <a href="{% url 'users:detail' coffee.author.username %}">{{ coffee.author.username }}</a>
+</h3>
+{% if coffee.author.name %}
+<p>{{ coffee.author.name }}</p>
+{% endif %}
 {% endblock content %}

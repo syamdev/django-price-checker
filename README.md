@@ -202,7 +202,7 @@ class CoffeeCreateView(LoginRequiredMixin, CreateView):
 ...
 ```
 
-### Create the author of post
+### Create the author of post in **models.py**
 ```
 author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
 ```
@@ -221,3 +221,7 @@ for coffee in Coffee.objects.all():
 for coffee in Coffee.objects.all():
     print(coffee, coffee.author)
 ```
+
+### Display author in detail view
+- Set the author after form validation
+- Add view to template
