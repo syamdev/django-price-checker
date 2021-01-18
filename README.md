@@ -189,3 +189,15 @@ user.email
 user.name
 user.password
 ```
+
+### Create HTML Templates
+- Add crispy-form
+
+### Add authentication
+- Make page accessible for logged-in user
+```
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class CoffeeCreateView(LoginRequiredMixin, CreateView):
+...
+```
