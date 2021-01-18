@@ -1,9 +1,11 @@
 from django.db import models
+from django.conf import settings
 from django.urls import reverse
 
+
 from autoslug import AutoSlugField
-from model_utils.models import TimeStampedModel
 from django_countries.fields import CountryField
+from model_utils.models import TimeStampedModel
 
 
 class Coffee(TimeStampedModel):
@@ -22,6 +24,7 @@ class Coffee(TimeStampedModel):
     description = models.TextField("Description", blank=True)
     type = models.CharField("Coffee Type", max_length=2, choices=COFFEE_TYPE_CHOICES, default=UNIQUE_COFFEE)
     country_of_origin = CountryField("Country of Origin", blank=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name

@@ -201,3 +201,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class CoffeeCreateView(LoginRequiredMixin, CreateView):
 ...
 ```
+
+### Create the author of post
+```
+author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+```
+
+### Set the default author of post
+- Through: `python manage.py shell_plus`
+```
+coffeeauthor = User.objects.get(username='syam')
+
+for coffee in Coffee.objects.all():
+    coffee.author = coffeeauthor
+    coffee.save()
+```
+- Check author via shell or admin
+```
+for coffee in Coffee.objects.all():
+    print(coffee, coffee.author)
+```
