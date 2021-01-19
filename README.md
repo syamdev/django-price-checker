@@ -259,3 +259,6 @@ u.delete()
 
 ### Test All the Views
 ### Test All the URL Patterns
+### Add Update View
+- on views.py
+- edit template form same as CreateView

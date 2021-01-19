@@ -25,4 +25,10 @@
 {% if coffee.author.name %}
 <p>{{ coffee.author.name }}</p>
 {% endif %}
+
+{% if request.user.is_authenticated %}
+<p>
+  <a class="btn btn-primary" href="{% url 'coffee:update' coffee.slug %}" role="button">Update</a>
+</p>
+{% endif %}
 {% endblock content %}
