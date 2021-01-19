@@ -254,3 +254,5 @@ u
 u.delete()
 # (1, {'users.User': 1})
 ```
+
+### Test get_absolute_url() on **test_model.py**
