@@ -188,6 +188,12 @@ user.username
 user.email
 user.name
 user.password
+# delete user that we have created above
+user.delete()
+
+from faker import Faker
+fake = Faker({'en-US': 1})
+fake.country_code()
 ```
 
 ### Create HTML Templates
@@ -225,3 +231,26 @@ for coffee in Coffee.objects.all():
 ### Display author in detail view
 - Set the author after form validation
 - Add view to template
+
+### Test again with factory via shell 
+```
+python manage.py shell_plus
+
+from pricechecker.app_coffee.tests.factories import CoffeeFactory
+
+coffee = CoffeeFactory()
+coffee.author
+# <User: sgonzalez>
+
+# Delete coffee detail
+coffee.delete()
+# (1, {'app_coffee.Coffee': 1})
+
+u = User.objects.last()
+u
+# <User: sgonzalez>
+
+# Delete user
+u.delete()
+# (1, {'users.User': 1})
+```

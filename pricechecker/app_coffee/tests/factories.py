@@ -4,6 +4,7 @@ import factory
 import factory.fuzzy
 
 from ..models import Coffee
+from ...users.tests.factories import UserFactory
 
 
 class CoffeeFactory(factory.django.DjangoModelFactory):
@@ -13,6 +14,8 @@ class CoffeeFactory(factory.django.DjangoModelFactory):
     type = factory.fuzzy.FuzzyChoice(
         [x[0] for x in Coffee.COFFEE_TYPE_CHOICES]
     )
+    country_of_origin = factory.Faker('country_code')
+    author = factory.SubFactory(UserFactory)
 
     class Meta:
         model = Coffee
