@@ -29,6 +29,7 @@
 {% if request.user.is_authenticated %}
 <p>
   <a class="btn btn-primary" href="{% url 'coffee:update' coffee.slug %}" role="button">Update</a>
+  <a class="btn btn-danger" href="{% url 'coffee:delete' coffee.slug %}" role="button">Delete</a>
 </p>
 {% endif %}
 {% endblock content %}

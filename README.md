@@ -264,3 +264,7 @@ u.delete()
 - edit template form same as CreateView
 
 ### Test Update View
+
+### Add Delete View
+- on views.py
+- create template form coffee_confirm_delete.html

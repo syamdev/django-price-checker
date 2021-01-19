@@ -8,4 +8,5 @@ urlpatterns = [
     path(route='add/', view=views.CoffeeCreateView.as_view(), name='add'),
     path(route='<slug:slug>/', view=views.CoffeeDetailView.as_view(), name='detail'),
     path(route='<slug:slug>/update/', view=views.CoffeeUpdateView.as_view(), name='update'),
+    path(route='<slug:slug>/delete/', view=views.CoffeeDeleteView.as_view(), name='delete'),
 ]
