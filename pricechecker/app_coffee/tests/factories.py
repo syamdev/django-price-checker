@@ -2,9 +2,15 @@ from django.template.defaultfilters import slugify
 
 import factory
 import factory.fuzzy
+import pytest
 
 from ..models import Coffee
 from ...users.tests.factories import UserFactory
+
+
+@pytest.fixture
+def coffee():
+    return CoffeeFactory()
 
 
 class CoffeeFactory(factory.django.DjangoModelFactory):

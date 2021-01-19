@@ -7,8 +7,8 @@ from django.test import RequestFactory
 
 from ...users.models import User
 from ..models import Coffee
-from ..views import CoffeeCreateView, CoffeeListView, CoffeeDetailView
-from .factories import CoffeeFactory
+from ..views import CoffeeCreateView, CoffeeListView, CoffeeDetailView, CoffeeUpdateView
+from .factories import CoffeeFactory, coffee
 
 pytestmark = pytest.mark.django_db
 
@@ -37,10 +37,7 @@ def test_good_coffee_list_view(rf):
     assertContains(response, 'Coffee List')
 
 
-def test_good_coffee_detail_view(rf):
-    # Order some coffee from the CoffeeFactory
-    coffee = CoffeeFactory()
-
+def test_good_coffee_detail_view(rf, coffee):
     # Make a request for our new coffee
     url = reverse("coffee:detail", kwargs={'slug': coffee.slug})
     request = rf.get(url)
@@ -54,9 +51,6 @@ def test_good_coffee_detail_view(rf):
 
 
 def test_good_coffee_create_view(rf, admin_user):
-    # Order some coffee from the CoffeeFactory
-    coffee = CoffeeFactory()
-
     # Make a request for our new coffee
     request = rf.get(reverse("coffee:add"))
 
@@ -84,9 +78,7 @@ def test_coffee_list_contains_2_coffees(rf):
     assertContains(response, coffee2.name)
 
 
-def test_detail_contains_coffee_data(rf):
-    coffee = CoffeeFactory()
-
+def test_detail_contains_coffee_data(rf, coffee):
     # Make a request for our new coffee
     url = reverse("coffee:detail", kwargs={'slug': coffee.slug})
     request = rf.get(url)
@@ -119,3 +111,47 @@ def test_coffee_create_form_valid(rf, admin_user):
     assert coffee.description == "It is an espresso shot with half the amount of water."
     assert coffee.type == Coffee.BLACK_COFFEE
     assert coffee.author == admin_user
+
+
+def test_coffee_create_correct_title(rf, admin_user):
+    """Page title for CoffeeCreateView should be Add Coffee."""
+    request = rf.get(reverse('coffee:add'))
+    request.user = admin_user
+    response = CoffeeCreateView.as_view()(request)
+    assertContains(response, 'Add Coffee')
+
+
+def test_good_coffee_update_view(rf, admin_user, coffee):
+    url = reverse("coffee:update", kwargs={'slug': coffee.slug})
+
+    # Make a request for our new coffee
+    request = rf.get(url)
+
+    # Add an authenticated user
+    request.user = admin_user
+
+    # Use the request to get the response
+    callable_obj = CoffeeUpdateView.as_view()
+    response = callable_obj(request, slug=coffee.slug)
+
+    # Test that the response is valid
+    assertContains(response, "Update Coffee")
+
+
+def test_coffee_update(rf, admin_user, coffee):
+    """POST request to CoffeeUpdateView updates a coffee and redirects."""
+    # Make a request for our new coffee
+    form_data = {
+        'name': coffee.name,
+        'description': 'Something new',
+        'type': coffee.BLACK_COFFEE
+    }
+    url = reverse("coffee:update", kwargs={'slug': coffee.slug})
+    request = rf.post(url, form_data)
+    request.user = admin_user
+    callable_obj = CoffeeUpdateView.as_view()
+    response = callable_obj(request, slug=coffee.slug)
+
+    # Check that the coffee has been changed
+    coffee.refresh_from_db()
+    assert coffee.description == 'Something new'

@@ -262,3 +262,5 @@ u.delete()
 ### Add Update View
 - on views.py
 - edit template form same as CreateView
+
+### Test Update View
