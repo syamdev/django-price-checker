@@ -258,3 +258,4 @@ u.delete()
 ### Test get_absolute_url() on **test_model.py**
 
 ### Test All the Views
+### Test All the URL Patterns
