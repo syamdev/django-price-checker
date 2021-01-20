@@ -268,3 +268,5 @@ u.delete()
 ### Add Delete View
 - on views.py
 - create template form coffee_confirm_delete.html
+
+### Test Delete View

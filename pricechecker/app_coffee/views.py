@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Coffee
@@ -34,13 +34,13 @@ class CoffeeDeleteView(LoginRequiredMixin, DeleteView):
     action = 'Delete'
     success_url = reverse_lazy('coffee:list')
 
-    # def get(self, request, *args, **kwargs):
-    #     # Delete immediately without confirmation
-    #     return self.post(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        # Delete immediately without confirmation
+        return super(CoffeeDeleteView, self).post(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        if "cancel" in request.POST:
-            url = self.success_url
-            return HttpResponseRedirect(url)
-        else:
-            return super(CoffeeDeleteView, self).post(request, *args, **kwargs)
+    # def post(self, request, *args, **kwargs):
+    #     if "cancel" in request.POST:
+    #         url = self.success_url
+    #         return HttpResponseRedirect(url)
+    #     else:
+    #         return super(CoffeeDeleteView, self).post(request, *args, **kwargs)

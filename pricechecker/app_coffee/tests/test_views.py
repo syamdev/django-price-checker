@@ -1,13 +1,14 @@
 import pytest
+from django.http import HttpResponseRedirect
 from pytest_django.asserts import assertContains, assertRedirects
 
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.test import RequestFactory
+from django.test import RequestFactory, Client
 
 from ...users.models import User
 from ..models import Coffee
-from ..views import CoffeeCreateView, CoffeeListView, CoffeeDetailView, CoffeeUpdateView
+from ..views import CoffeeCreateView, CoffeeListView, CoffeeDetailView, CoffeeUpdateView, CoffeeDeleteView
 from .factories import CoffeeFactory, coffee
 
 pytestmark = pytest.mark.django_db
@@ -155,3 +156,89 @@ def test_coffee_update(rf, admin_user, coffee):
     # Check that the coffee has been changed
     coffee.refresh_from_db()
     assert coffee.description == 'Something new'
+
+
+def test_good_coffee_delete_view(rf, admin_user, coffee):
+    url = reverse("coffee:delete", kwargs={'slug': coffee.slug})
+
+    # Make a request for our new coffee
+    request = rf.get(url)
+
+    # Add an authenticated user
+    request.user = admin_user
+
+    # Use the request to get the response
+    callable_obj = CoffeeDeleteView.as_view()
+    response = callable_obj(request, slug=coffee.slug)
+
+    # Go to success url page after delete
+    expected_url = reverse("coffee:list")
+
+    # Test that the response is valid
+    assert response.status_code == 302
+    assert response.url == expected_url
+
+
+def test_coffee_delete(rf, admin_user, coffee):
+    """POST request to CoffeeDeleteView delete a coffee and redirects."""
+    # Submit the coffee add form
+    request = rf.get(reverse("coffee:add"))
+    request.user = admin_user
+    response_create = CoffeeCreateView.as_view()(request)
+
+    url = reverse("coffee:delete", kwargs={'slug': coffee.slug})
+    request = rf.delete(url)
+    request.user = admin_user
+    callable_obj = CoffeeDeleteView.as_view()
+    response_delete = callable_obj(request, slug=coffee.slug)
+
+    # Check that the coffee has been deleted
+    assert list(Coffee.objects.all()) == list(Coffee.objects.none())
+    assert Coffee.objects.count() == 0
+
+# def test_good_coffee_delete_view(rf, admin_user, coffee):
+#     url = reverse("coffee:delete", kwargs={'slug': coffee.slug})
+#
+#     # Make a request for our new coffee
+#     request = rf.get(url)
+#
+#     # Add an authenticated user
+#     request.user = admin_user
+#
+#     # Use the request to get the response
+#     callable_obj = CoffeeDeleteView.as_view()
+#     response = callable_obj(request, slug=coffee.slug)
+#
+#     # Test that the response is valid
+#     assertContains(response, "Confirm")
+
+
+# def test_coffee_delete(rf, admin_user, coffee):
+#     """POST request to CoffeeDeleteView delete a coffee and redirects."""
+#     # Submit the coffee add form
+#     request = rf.get(reverse("coffee:add"))
+#     request.user = admin_user
+#     response = CoffeeCreateView.as_view()(request)
+#
+#     url = reverse("coffee:delete", kwargs={'slug': coffee.slug})
+#     request = rf.delete(url)
+#     request.user = admin_user
+#     callable_obj = CoffeeDeleteView.as_view()
+#     response = callable_obj(request, slug=coffee.slug)
+#
+#     # Go to success url page after delete
+#     expected_url = reverse("coffee:list")
+#     response.client = Client()
+#
+#     response.client.delete(url)
+#
+#     url = '/coffees/'
+#     # resp = response.client.get(expected_url)
+#
+#     # Check that the coffee has been deleted
+#     assert response.status_code == 302
+#     assert response.url == expected_url
+#     assert list(Coffee.objects.all()) == list(Coffee.objects.none())
+#     assert resolve(url).view_name == 'coffee:list'
+#     # assert resp.status_code == 200
+#     assert Coffee.objects.count() == 0
